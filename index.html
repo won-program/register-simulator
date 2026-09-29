@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#163f35">
+  <meta name="description" content="3分間のレジバイト。おつりを計算して、速さと正確さでハイスコアを目指す無料ブラウザゲーム。">
+  <title>レジバイトシミュレーター | まちかどマート</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="./js/core.js" defer></script>
+  <script src="./js/storage.js" defer></script>
+  <script src="./js/audio.js" defer></script>
+  <script src="./js/app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="./index.html" aria-label="まちかどマート タイトルへ"><span class="brand-mark" aria-hidden="true">m<span>·</span></span><span>まちかどマート<small>MACHIKADO MART</small></span></a>
+    <div class="header-right"><span class="store-tag">いつもの街の、いつものレジ。</span><button id="sound-button" class="icon-button" type="button" aria-pressed="false">♪ 音 OFF</button></div>
+  </header>
+  <main>
+    <section id="home-screen" class="screen home-screen" aria-labelledby="home-title">
+      <div class="home-main">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="live-dot"></span> レジ担当、募集中。 <span class="edition">VOL. 01</span></p>
+          <h1 id="home-title">レジバイト<br><span>シミュレーター<span class="title-dot">。</span></span></h1>
+          <p class="hero-lead">今日もレジ打ち、お願いします！</p>
+          <p class="hero-description">おつりを計算。テンポよくお会計。<br>あなたの3分間が、お店の新記録になる。</p>
+          <div class="shift-tags"><span>◷ 1プレイ 3分</span><span>⌨ キーボード / タップ</span></div>
+          <button class="button primary start-button" data-action="start" type="button"><span>出勤する <small>START YOUR SHIFT</small></span><span aria-hidden="true">↗</span></button>
+          <div class="home-actions"><button class="text-button" data-action="help" type="button">ⓘ 遊び方</button><span></span><button class="text-button" data-action="records" type="button">▥ 記録・実績</button></div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="art-grid"></div><span class="art-note">さあ、レジの向こう側へ。</span>
+          <div class="receipt-preview"><div class="receipt-brand">まちかどマート</div><div class="receipt-small">本日もご来店ありがとうございます</div><div class="receipt-rule"></div><div class="receipt-line"><span>おにぎり</span><span>¥138</span></div><div class="receipt-line"><span>緑茶</span><span>¥128</span></div><div class="receipt-rule"></div><div class="receipt-line"><b>合計</b><b>¥266</b></div><div class="barcode"></div><div class="receipt-small">HAVE A NICE SHIFT!</div></div>
+          <div class="register"><div class="register-label">MACHIKADO / POS 01 <i></i></div><div class="register-display"><span>おつり / CHANGE</span><b>¥734<span>_</span></b><small>THANK YOU!</small></div><div class="register-bottom"><div class="register-keys"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="register-enter">ENTER<br>↵</div></div><div class="register-slot"></div></div>
+          <div class="combo-sticker">PERFECT!<span>いい感じ、その調子。</span></div><div class="coin coin-one">100</div><div class="coin coin-two">50</div><span class="art-caption">QUICK MATH. GOOD SERVICE.</span>
+        </div>
+      </div>
+      <div class="personal-bests"><div class="best-intro"><span>YOUR PERSONAL BEST</span><b>昨日の自分を、超えていこう。</b></div><div class="best"><span>ハイスコア</span><strong id="home-high">0</strong><small>PT</small></div><div class="best"><span>最大 COMBO</span><strong id="home-combo">0</strong><small>COMBO</small></div><div class="best"><span>最高接客人数</span><strong id="home-served">0</strong><small>人</small></div></div>
+      <div class="home-bottom"><span><i class="live-dot"></i> ログイン不要・すぐに遊べます</span><span>速く、正しく、気持ちよく。</span></div>
+    </section>
+
+    <section id="game-screen" class="screen game-screen" hidden aria-label="勤務中">
+      <div class="game-topline"><span class="eyebrow">REGISTER 01 <span class="on-duty">勤務中</span></span><button id="quit-button" class="text-button" type="button">勤務を中断</button></div>
+      <div class="scoreboard"><div><span>SCORE</span><strong id="score">0</strong></div><div><span>COMBO</span><strong id="combo">0<small>連続</small></strong></div><div class="time-stat"><span>SHIFT TIME</span><strong id="time">03:00</strong></div></div>
+      <div class="time-track"><div id="time-bar"></div></div>
+      <div class="queue-strip"><span id="shift-message">まずは落ち着いて、お会計。</span><span>待ち <b id="queue-count">2</b> 人 <span id="queue-people" aria-hidden="true"></span></span></div>
+      <div class="checkout-layout">
+        <section class="customer-panel" aria-labelledby="customer-name"><div class="panel-top"><span>お客様のお買い物</span><span id="customer-number">NO. 001</span></div><div class="customer"><span id="customer-face" class="customer-face" aria-hidden="true">🙂</span><div><span id="customer-kind" class="customer-kind">いつものお客様</span><h2 id="customer-name">お会計お願いします</h2><p id="customer-speech" aria-live="polite"></p></div></div><div class="patience"><span id="mood-text">ゆっくりで大丈夫。</span><div><i id="mood-bar"></i></div></div><div id="items" class="items"></div><div class="receipt-total"><span>お買上げ合計 <small>税込</small></span><strong id="total">¥0</strong></div><p class="receipt-foot">まちかどマートをご利用いただき、ありがとうございます。</p></section>
+        <section class="payment-panel" aria-labelledby="answer-label"><div class="terminal-heading"><span class="live-dot"></span> CASH REGISTER <span>01</span></div><div class="payment-display"><div class="payment-label">お預かり <span id="payment-state">金額確認中</span></div><strong id="tender">¥0</strong><div id="coins" class="coin-breakdown" hidden></div></div><div id="event-notice" class="event-notice" role="status">商品をスキャンしています…</div><form id="answer-form" novalidate autocomplete="off"><label id="answer-label" for="answer">おつりはいくら？</label><div class="answer-wrap"><span>¥</span><input id="answer" name="change" type="text" inputmode="numeric" pattern="[0-9０-９]*" maxlength="6" enterkeyhint="done" placeholder="0" aria-describedby="input-help input-error" readonly><span>円</span></div><p id="input-error" class="input-error" role="alert"></p><button id="answer-button" class="button primary answer-button" type="submit" disabled><span>お会計を確定</span><span>↵</span></button><p id="input-help" class="input-help">数字を入力して Enter / ボタンで回答</p></form><div id="feedback" class="feedback" role="status" aria-live="polite"><span id="feedback-title" class="feedback-title">READY?</span><span id="feedback-detail" class="feedback-detail">速さも、正確さも、大切に。</span></div></section>
+      </div>
+      <div class="game-bottom"><span>正解 <b id="correct-count">0</b> / 接客 <b id="served-count">0</b> 人</span><span>焦らず、ひとりずつ。</span></div>
+    </section>
+
+    <section id="result-screen" class="screen result-screen" hidden aria-labelledby="result-title"><div class="result-heading"><p class="eyebrow">SHIFT COMPLETE!</p><h1 id="result-title">勤務終了。おつかれさま！</h1><p>今日のがんばり、レシートにまとめました。</p></div><article id="result-card" class="result-card"><div class="result-card-header"><span>まちかどマート <small>勤務結果 / SHIFT REPORT</small></span><span id="result-date"></span></div><div class="result-score"><span>YOUR SCORE <b id="new-best" hidden>NEW BEST</b></span><strong id="result-score">0</strong><small>PT</small></div><div id="result-rank" class="rank-badge"></div><div class="result-key-stats"><div><span>接客人数</span><strong id="result-served"></strong></div><div><span>正答率</span><strong id="result-accuracy"></strong></div><div><span>最大 COMBO</span><strong id="result-combo"></strong></div></div><dl id="result-details" class="result-details"></dl><div id="balance-banner" class="balance-banner"></div><div id="new-achievements" class="new-achievements"></div><div class="result-card-footer">レジバイトシミュレーター <span>THANK YOU FOR YOUR WORK!</span></div></article><p class="share-hint">勤務結果をスクリーンショットで、友達にシェア。</p><div class="result-actions"><button class="button primary" data-action="start" type="button">もう一度出勤する <span>↗</span></button><button id="copy-result" class="button secondary" type="button">結果をコピー</button></div><button class="text-button" data-action="home" type="button">← タイトルに戻る</button></section>
+
+    <section id="records-screen" class="screen records-screen" hidden aria-labelledby="records-title"><div class="section-heading"><div><p class="eyebrow">YOUR SHIFT LOG</p><h1 id="records-title">記録と実績</h1></div><button class="text-button" data-action="home" type="button">← 戻る</button></div><div id="record-grid" class="record-grid"></div><h2 class="section-subtitle">獲得した実績 <span id="achievement-count"></span></h2><div id="achievements" class="achievements"></div><h2 class="section-subtitle">最近の勤務 <small>直近20回</small></h2><div class="history-wrap"><table><thead><tr><th>勤務日</th><th>スコア</th><th>接客</th><th>正答率</th><th>差額</th></tr></thead><tbody id="history"></tbody></table><p id="history-empty">まだ勤務記録がありません。初出勤、お待ちしています。</p></div><div class="delete-row"><p>記録はこのブラウザに保存されます。</p><button id="delete-records" class="text-button danger" type="button">記録を削除</button></div></section>
+  </main>
+  <footer class="site-footer"><span>MACHIKADO MART</span><span>小さなお会計に、大きな達成感。</span><span>OPEN EVERY DAY</span></footer>
+  <dialog id="help-dialog"><div class="dialog-inner"><p class="eyebrow">HOW TO PLAY</p><h2>3分間、レジをおまかせ。</h2><ol class="help-steps"><li><b>合計とお預かりをチェック</b><span>金額の確定を待ちます。追加小銭や袋にも注目！</span></li><li><b>「お預かり − 合計」を入力</b><span>例：1,000円 − 266円 → おつり734円。</span></li><li><b>Enter またはボタンで確定</b><span>次のお客様へ自動で進みます。連続正解でCOMBO！</span></li></ol><div class="help-note">正解 +100pt ＋ 速度・COMBOボーナス。<br>不正解 −100pt（0ptより下がりません）。<br>ラッシュ中は正解ポイント ×1.2！</div><p class="dialog-description">小銭大量客は硬貨の合計も自分で計算します。待ち人数・機嫌によるゲームオーバーや減点はありません。別のタブに移っても3分間の時計は進みます。</p><button class="button primary" data-close="help-dialog" type="button">準備OK！</button></div></dialog>
+  <dialog id="confirm-dialog"><div class="dialog-inner"><p class="eyebrow">CONFIRM</p><h2 id="confirm-title"></h2><p id="confirm-description" class="dialog-description"></p><div class="dialog-actions"><button class="button secondary" data-close="confirm-dialog" type="button">キャンセル</button><button id="confirm-ok" class="button destructive" type="button">実行する</button></div></div></dialog>
+  <dialog id="share-dialog"><div class="dialog-inner"><h2>勤務結果を共有</h2><p class="dialog-description">以下の文章を選択してコピーできます。</p><textarea id="share-text" rows="8" readonly aria-label="共有用の勤務結果"></textarea><button class="button primary" data-close="share-dialog" type="button">閉じる</button></div></dialog>
+  <div id="toast" class="toast" role="status" hidden></div>
+  <noscript><p class="noscript">このゲームにはJavaScriptが必要です。ブラウザの設定で有効にしてください。</p></noscript>
+</body>
+</html>
